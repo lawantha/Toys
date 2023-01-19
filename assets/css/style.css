@@ -25,11 +25,6 @@ html body {
 
 .content-wrapper {}
 
-@media screen and (max-width: 1920px) {
-    .cover1 {
-        object-fit: cover;
-    }
-}
 
 navbar styles .navbar {
     /* border: 2px solid #e5e5e5; */
@@ -59,6 +54,7 @@ navbar styles .navbar {
     color: black;
     border: #e5e5e5;
     border-radius: 20px;
+    cursor: pointer;
 }
 
 /* collapsed css */
@@ -191,23 +187,27 @@ section {
     border: none;
     border-radius: 0;
     max-width: 300px !important;
+    min-width: 12rem;
     /* width: auto; */
     height: 300px;
     text-align: center;
     border-bottom-left-radius: 3rem !important;
     display: flex !important;
     align-items: center;
+    overflow: hidden;
 }
 
 .owl-nav {
     display: none;
 }
 
-@media (min-width: 768px) {
-    .card img {
-        height: 11em;
-    }
+.card img {
+    aspect-ratio: 1 / 1;
+    padding: 10px;
+    height: 55%;
+    width: auto;
 }
+
 
 .buy {
     position: absolute;
@@ -219,8 +219,8 @@ section {
     opacity: 0;
     transition: bottom 0.5s, opacity 0.5s;
     background: var(--background4);
-    height: 10%;
-    width: 50%;
+    height: 15%;
+    width: 100%;
     cursor: pointer;
     border-radius: 5px;
     border: 0px;
@@ -228,7 +228,7 @@ section {
 }
 
 .card:hover .buy {
-    bottom: 8px;
+    bottom: 1px;
     opacity: 1;
 }
 
@@ -239,24 +239,52 @@ section {
 }
 
 .card-columns {
-    @include media-breakpoint-only(sm) {
-        column-count: 2;
-    }
-
-    @include media-breakpoint-only(md) {
-        column-count: 4;
-    }
-
-    @include media-breakpoint-only(lg) {
-        column-count: 4;
-    }
-
-    @include media-breakpoint-only(xl) {
-        column-count: 5;
-    }
 
     display: flex;
     justify-content: space-around;
     align-items: center;
     flex-wrap: wrap;
+}
+
+.card-columns .card {
+    height: 300px;
+    width: 17rem !important;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    display: flex;
+}
+
+/* cart ::::::::::::::::::::: */
+
+.cart {
+    height: 100vh;
+    background-color: blueviolet;
+    width: 500px;
+    display: fixed;
+}
+
+@media screen and (max-width: 970px) {
+    .cover1 {
+        object-fit: cover;
+    }
+
+    .card-columns .card {
+        width: 14rem !important;
+    }
+
+    .card .buy {
+        bottom: 1px;
+        opacity: 1;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .cover1 {
+        object-fit: cover;
+    }
+
+    .card-columns .card {
+        width: 10rem !important;
+    }
 }
