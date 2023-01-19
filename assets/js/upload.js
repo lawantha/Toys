@@ -94,14 +94,16 @@ function addData() {
     var image = document.getElementById("image");
     var category = document.getElementById("category");
     var date = new Date().toLocaleDateString();
+    var keywords = document.getElementById("keywords");
 
     var newData = {
         id: newProductKey,
         name: name.value,
         category: category.value,
         price: price.value,
-        image: 'https://firebasestorage.googleapis.com/v0/b/mathswin-c1317.appspot.com/o/images%2Fuser.png?alt=media&token=35202115-9f1e-4746-9024-9dd8bbc79bbd',
-        date: date
+        image: 'https://firebasestorage.googleapis.com/v0/b/toys-dfc40.appspot.com/o/images%2FNo-Image-Placeholder.png?alt=media&token=50b9f39a-3bc5-46e8-9eba-0df8cbb372dd',
+        date: date,
+        keywords: keywords
     }
     console.log(newProductKey);
     firebase.database().ref('products/' + newProductKey).set(newData);

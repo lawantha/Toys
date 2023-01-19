@@ -14,7 +14,11 @@ function display(data) {
         <a>Add to cart</a>
     </button>
 </div>`;
-        document.querySelector('#products').innerHTML += product;
+
+        if (document.getElementById("products") != null) {
+            document.querySelector('#products').innerHTML += product;
+        }
+
     });
 
 }
@@ -34,7 +38,10 @@ function displayProductCarousel(data) {
         <a>Add to cart</a>
     </button>
                 </div>`;
-        document.querySelector('#ProductCarousel').innerHTML += product;
+
+        if (document.getElementById("ProductCarousel") != null) {
+            document.querySelector('#ProductCarousel').innerHTML += product;
+        }
     });
 }
 
@@ -94,6 +101,15 @@ function clicked(category) {
     let data = JSON.parse(localStorage.getItem("products")) || [];
     let filteredData = data.filter(item => item.category === category);
     display(filteredData);
+    const boy = document.querySelector('.boy');
+    const girl = document.querySelector('.girl');
+    console.log(boy);
+    if (category === "boy") {
+        boy.classList.toggle('active')
+    }
+    if (category === "girl") {
+        girl.classList.toggle('active')
+    }
     location.hash = "#products";
     document.querySelector(`#products`).scrollIntoView({ behavior: 'smooth' });
 }
@@ -101,15 +117,27 @@ function clicked(category) {
 
 //search:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-const searchButton = document.getElementById('search-button');
-const searchInput = document.getElementById('search-input');
-searchButton.addEventListener('click', () => {
-    const inputValue = searchInput.value;
-    let data = JSON.parse(localStorage.getItem("products")) || [];
-    display(searchJSON(data, inputValue));
-    location.hash = "#products";
-    document.querySelector(`#products`).scrollIntoView({ behavior: 'smooth' });
-});
+if (document.getElementById('search-button') != null) {
+    document.getElementById('search-button').addEventListener('click', () => {
+        const inputValue = document.getElementById('search-input').value;
+        let data = JSON.parse(localStorage.getItem("products")) || [];
+        display(searchJSON(data, inputValue));
+        location.hash = "#products";
+        document.querySelector(`#products`).scrollIntoView({ behavior: 'smooth' });
+    });
+
+    document.getElementById('search-input').addEventListener("keypress", (event) => {
+        console.log(event);
+        if (event.key === "Enter") {
+            const inputValue = document.getElementById('search-input').value;
+            let data = JSON.parse(localStorage.getItem("products")) || [];
+            display(searchJSON(data, inputValue));
+            location.hash = "#products";
+            document.querySelector(`#products`).scrollIntoView({ behavior: 'smooth' });
+        }
+
+    });
+}
 
 function searchJSON(data, searchTerm, filter = {}) {
     return data
@@ -136,54 +164,6 @@ function searchJSON(data, searchTerm, filter = {}) {
             return true;
         });
 }
-
-// const firebaseConfig = {
-//     apiKey: "AIzaSyB96p2w4nMX_atUqXQ4GsjwyHtgwQPwv8k",
-//     authDomain: "toys-dfc40.firebaseapp.com",
-//     projectId: "toys-dfc40",
-//     storageBucket: "toys-dfc40.appspot.com",
-//     messagingSenderId: "731040380978",
-//     appId: "1:731040380978:web:fa68867aa439464160242b",
-//     measurementId: "G-NHV8CQ7BF1"
-// };
-// // Initialize Firebase
-// firebase.initializeApp(firebaseConfig);
-
-// // START db_get_reference
-// var db = firebase.database();
-// // START db_get_reference
-// var storage = firebase.storage();
-
-
-// async function getProduct() {
-//     $('#products').empty();
-//     let newObject = [];
-//     try {
-//         const snapshot = await firebase.database().ref("products").orderByChild("date").once('value');
-//         if (snapshot.exists()) {
-//             snapshot.forEach(childSnapshot => {
-//                 let data = {
-//                     name: childSnapshot.val().name,
-//                     price: childSnapshot.val().price,
-//                     image: childSnapshot.val().image,
-//                     category: childSnapshot.val().category
-//                 }
-//                 newObject.push(data);
-//                 display(data);
-//             });
-//         } else {
-//             console.log("No data available");
-//         }
-//     } catch (error) {
-//         // An error happened.
-//         var errorCode = error.code;
-//         var errorMessage = error.message;
-//         console.log(errorMessage);
-//     }
-//     return newObject;
-// }
-
-
 
 
 //navbar:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -212,44 +192,87 @@ $(".carousel").swipe({
 
 });
 
-
-$(".featured-carousel").owlCarousel({
-    loop: true,
-    autoplay: true,
-    dots: false,
-    lazyLoad: true,
-    autoplayTimeout: 1000,
-    autoplayHoverPause: true,
-    margin: 10,
-    // autoWidth: true,
-    responsiveClass: true,
-    responsive: {
-        0: {
-            items: 2,
-            nav: true
-        },
-        600: {
-            items: 3,
-            nav: false
-        },
-        1000: {
-            items: 4,
-            nav: true,
-            loop: true
+if (document.getElementById("ProductCarousel") != null) {
+    $(".featured-carousel").owlCarousel({
+        loop: true,
+        autoplay: true,
+        dots: false,
+        lazyLoad: true,
+        autoplayTimeout: 1000,
+        autoplayHoverPause: true,
+        margin: 10,
+        // autoWidth: true,
+        responsiveClass: true,
+        responsive: {
+            0: {
+                items: 2,
+                nav: true
+            },
+            600: {
+                items: 3,
+                nav: false
+            },
+            1000: {
+                items: 4,
+                nav: true,
+                loop: true
+            }
         }
-    }
-});
+    });
+}
+
 
 
 // cart :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-let cart = [];
+function cartDisplay(data) {
+
+    $('#cartProducts').empty();
+    data.forEach((data) => {
+        var product = `<li class="list-group-item cartList">
+        <div class="crtProduct">
+            <div class="crtImg">
+                <img src="${data.image}" />
+            </div>
+            <div class="crtData">
+                <h6>${data.name}</h6>
+                <a>Price :- ${data.price}/=<br /></a>
+            </div>
+            <button class="btn-danger rounded" onclick="removeFromCart('${data.id}')"><i class="fa fa-trash" aria-hidden="true"></i></button>
+        </div>
+    </li>`;
+
+        if (document.getElementById("cartProducts") != null) {
+            document.querySelector('#cartProducts').innerHTML += product;
+        }
+
+    });
+
+}
+
+function displaySummery(total, count) {
+    $('#summery').empty();
+
+    var data = `<p class="card-text">Total items :- ${count}</p>
+        <p class="card-text">Total amount :- ${total} /=</p>
+        <a href="#" class="btn btn-primary">Place order <i class="fab fa-cc-visa"></i>
+            <i class="fab fa-cc-mastercard"></i>
+            <i class="fab fa-cc-amazon-pay"></i></a>`;
+
+    if (document.getElementById("summery") != null) {
+        document.querySelector('#summery').innerHTML += data;
+    }
+
+}
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 // function addToCart(item) {
 //     cart.push(item);
 //     localStorage.setItem("cart", JSON.stringify(cart));
 // }
 async function addToCart(item) {
+    console.log(item);
     let myPromise = new Promise(function (resolve) {
         let req = new XMLHttpRequest();
         req.open('get', `https://toys-dfc40-default-rtdb.firebaseio.com/products/${item}.json`);
@@ -270,26 +293,37 @@ async function addToCart(item) {
 }
 
 function removeFromCart(item) {
-    let index = cart.indexOf(item);
+    let product = cart.find(p => p.id === item);
+    let index = cart.indexOf(product);
+    console.log(item)
+    console.log(index)
+    console.log(product)
+
     if (index > -1) {
         cart.splice(index, 1);
         localStorage.setItem("cart", JSON.stringify(cart));
     }
+    alert('item removed from cart')
+
 }
 
 function getTotal() {
     let total = 0;
+    let count = 0;
     cart.forEach(item => {
-        total += item.price;
+        total += Number(item.price);
+        count++
     });
-    return total;
+    // return total;
+    displaySummery(total, count);
 }
 
 function getCart() {
-    display(cart);
-    // return cart;
+    cartDisplay(cart);
+    getTotal();
 }
 
+getCart();
 
 //retrieving data from local storage
 let storedCart = JSON.parse(localStorage.getItem("cart")) || [];

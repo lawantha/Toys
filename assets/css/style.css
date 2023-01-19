@@ -1,5 +1,7 @@
 :root {
     --background1: linear-gradient(rgba(152, 128, 233, 0.35), rgba(255, 139, 216, 0.35));
+    --backgroundboy: linear-gradient(rgba(152, 128, 233, 0.35), rgb(89, 2, 228));
+    --backgroundgirl: linear-gradient(rgba(241, 144, 217, 0.35), rgb(235, 57, 176));
     --background2: linear-gradient(90deg, rgba(7, 7, 7, 0.527), rgba(0, 0, 0, 0));
     --background3: linear-gradient(90deg, rgba(7, 7, 7, 0), rgb(7, 7, 7, 0.692));
     --background4: linear-gradient(rgba(152, 128, 233, 3), rgba(255, 139, 216, 3));
@@ -17,6 +19,19 @@ html body {
     scroll-behavior: smooth;
 }
 
+.girl,
+.boy {
+    background: var(--background1);
+}
+
+.girl.active {
+    background: var(--backgroundgirl);
+}
+
+.boy.active {
+    background: var(--backgroundboy);
+}
+
 .container {
     min-height: 100vh !important;
     width: 100% !important;
@@ -26,10 +41,13 @@ html body {
 .content-wrapper {}
 
 
-navbar styles .navbar {
+/* navbar styles  */
+.navbar {
     /* border: 2px solid #e5e5e5; */
     /* background-color: rgba(0, 0, 0, 0.5); */
     z-index: 1000;
+    justify-content: space-between !important;
+    background-color: aqua;
 }
 
 .navbar-brand {
@@ -37,9 +55,18 @@ navbar styles .navbar {
     letter-spacing: 2px;
 }
 
+.links {
+    flex-grow: 1;
+}
+
+.navbar-nav {
+
+    float: right !important;
+}
+
 .navbar .navbar-nav .nav-item a {
     /* border: 2px solid #e5e5e5; */
-    color: white;
+    color: rgb(0, 0, 0);
     font-size: 15px;
     /* font-weight: bold; */
     text-decoration: none;
@@ -163,7 +190,7 @@ section {
 .featured {
     margin-right: 0px !important;
     margin-left: 0px !important;
-    background-color: blue;
+    background-color: rgba(0, 0, 255, 0.507);
 }
 
 .featured-box {
@@ -181,7 +208,8 @@ section {
     padding: 1rem !important;
 }
 
-.card {
+.featured .card,
+.products .card {
     margin: 0 0.5em;
     box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
     border: none;
@@ -202,8 +230,8 @@ section {
 }
 
 .card img {
-    aspect-ratio: 1 / 1;
-    padding: 10px;
+    /* aspect-ratio: 1 / 1; */
+    /* padding: 10px; */
     height: 55%;
     width: auto;
 }
@@ -258,11 +286,51 @@ section {
 /* cart ::::::::::::::::::::: */
 
 .cart {
-    height: 100vh;
-    background-color: blueviolet;
-    width: 500px;
-    display: fixed;
+    padding: 10px 0;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
 }
+
+.cart .content {
+    width: 55%;
+}
+
+.crtProduct {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    height: auto;
+}
+
+.cartList {
+    margin: 5px 0;
+    overflow: hidden;
+}
+
+.crtImg {
+    height: 150px !important;
+    width: 150px;
+}
+
+.crtImg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    overflow: hidden;
+}
+
+.crtData {
+    margin: 2rem;
+}
+
+.cart .total {
+    width: 35% !important;
+    order: 1;
+}
+
 
 @media screen and (max-width: 970px) {
     .cover1 {
@@ -277,6 +345,7 @@ section {
         bottom: 1px;
         opacity: 1;
     }
+
 }
 
 @media screen and (max-width: 750px) {
@@ -286,5 +355,35 @@ section {
 
     .card-columns .card {
         width: 10rem !important;
+    }
+
+    .cart {
+        flex-direction: column;
+        width: auto;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    .crtProduct {
+        flex-direction: column;
+    }
+
+    .crtImg {
+        height: 150px !important;
+        width: 200px;
+    }
+
+    .crtData {
+        margin: 0.5rem 0;
+        text-align: center;
+    }
+
+    .cart .total,
+    .cart .content {
+        width: 90% !important;
+    }
+
+    .cart .total {
+        order: -1;
     }
 }
